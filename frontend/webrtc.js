@@ -61,6 +61,7 @@
         pc.ontrack = function (e) {
           setStatus('Live');
           video.srcObject = e.streams[0];
+          video.play().catch(function () {});
         };
         pc.onconnectionstatechange = function () {
           if (pc.connectionState === 'failed' || pc.connectionState === 'closed') fail();
@@ -91,7 +92,8 @@
       .then(function (res) {
         if (res.status === 404) throw new Error('stream not found');
         if (res.status !== 201) throw new Error('bad status ' + res.status);
-        sessionUrl = new URL(res.headers.get('Location'), window.location.href).href;
+        var loc = res.headers.get('Location');
+        sessionUrl = loc.startsWith('/webrtc') ? new URL(loc, window.location.origin).href : new URL('/webrtc' + (loc.startsWith('/') ? loc : '/' + loc), window.location.origin).href;
         return res.text();
       })
       .then(function (answer) {
