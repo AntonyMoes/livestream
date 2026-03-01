@@ -22,7 +22,7 @@ webrtcICEServers2:
 # Disable HLS (WebRTC only)
 hls: false
 
-# Path "live" - stream at rtmp://host/live with key mystream
+# Path "live" - stream at rtmp://host/live with empty stream key
 paths:
   live: {}
 

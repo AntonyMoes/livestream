@@ -24,7 +24,7 @@ Open **http://localhost:8080** in your browser.
 1. **Settings → Stream**
    - Service: **Custom**
    - Server: `rtmp://YOUR_DOMAIN/live`
-   - Stream Key: `mystream`
+   - Stream Key: *(leave empty)*
 
 2. **Settings → Output → Streaming**
    - Encoder: x264 or hardware encoder
