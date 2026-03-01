@@ -1,0 +1,25 @@
+# Minimal low-latency WebRTC streaming config
+
+logLevel: info
+
+# RTMP: OBS publishes here
+rtmp: true
+rtmpAddress: :1935
+
+# WebRTC: Browser reads from here (~1s latency)
+webrtc: true
+webrtcAddress: :8889
+webrtcLocalUDPAddress: :8189
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+
+# Disable HLS (WebRTC only)
+hls: false
+
+# Path "live" - stream at rtmp://host/live with key mystream
+paths:
+  live: {}
+
+# For public deployment behind NAT: set your VPS public IP so ICE candidates work.
+# Uncomment and replace with your server's public IP or hostname:
+# webrtcICEHostNAT1To1IPs: [YOUR_PUBLIC_IP]
