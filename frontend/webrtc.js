@@ -59,12 +59,17 @@
         pc.addTransceiver('video', { direction: 'recvonly' });
         pc.addTransceiver('audio', { direction: 'recvonly' });
         pc.ontrack = function (e) {
-          setStatus('Live');
+          setStatus(video.muted ? 'Live (click unmute for audio)' : 'Live');
           video.srcObject = e.streams[0];
           video.play().catch(function () {});
         };
         pc.onconnectionstatechange = function () {
-          if (pc.connectionState === 'failed' || pc.connectionState === 'closed') fail();
+          if (pc.connectionState === 'closed') fail();
+          if (pc.connectionState === 'failed') {
+            setTimeout(function () {
+              if (pc && pc.connectionState === 'failed') fail();
+            }, 2000); // Brief delay; connection may recover
+          }
         };
         pc.onicecandidate = function (e) {
           if (!e.candidate) return;
@@ -73,7 +78,7 @@
               method: 'PATCH',
               headers: { 'Content-Type': 'application/trickle-ice-sdpfrag', 'If-Match': '*' },
               body: sdpFragment([e.candidate])
-            }).catch(fail);
+            }).catch(function () {}); // Don't fail connection on PATCH errors; ICE may still work
           } else queued.push(e.candidate);
         };
         return pc.createOffer();
@@ -101,11 +106,11 @@
       })
       .then(function () {
         if (queued.length) {
-          return fetch(sessionUrl, {
+          fetch(sessionUrl, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/trickle-ice-sdpfrag', 'If-Match': '*' },
             body: sdpFragment(queued)
-          });
+          }).catch(function () {}); // Don't fail; ICE may still establish
         }
       })
       .catch(fail);

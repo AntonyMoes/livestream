@@ -7,6 +7,8 @@ logLevel: info
 readTimeout: 60s
 writeTimeout: 60s
 writeQueueSize: 1024
+# Reduces WebRTC packet loss; if errors occur, run: sudo sysctl -w net.core.rmem_max=8388608
+udpReadBufferSize: 4194304
 
 # RTMP: OBS publishes here
 rtmp: true
@@ -26,6 +28,5 @@ hls: false
 paths:
   live: {}
 
-# For public deployment behind NAT: set your VPS public IP so ICE candidates work.
-# Uncomment and replace with your server's public IP or hostname:
+# Required for remote viewers: use your public hostname so ICE candidates are reachable
 # webrtcICEHostNAT1To1IPs: [YOUR_PUBLIC_IP]
