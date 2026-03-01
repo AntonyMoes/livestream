@@ -3,8 +3,9 @@
 logLevel: info
 
 # Timeouts and buffers - helps with OBS connection stability during brief network hiccups
-readTimeout: 30s
-writeTimeout: 30s
+# 60s avoids common firewall/NAT idle timeouts; OBS doesn't send RTMP keepalive packets
+readTimeout: 60s
+writeTimeout: 60s
 writeQueueSize: 1024
 
 # RTMP: OBS publishes here
