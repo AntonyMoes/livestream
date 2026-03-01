@@ -35,6 +35,22 @@
       font-size: 14px;
       border-radius: 4px;
     }
+    #debug-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      background: rgba(0,0,0,0.9);
+      color: #0f0;
+      font: 11px/1.4 monospace;
+      overflow: auto;
+      padding: 8px;
+      border-top: 1px solid #333;
+    }
+    #debug-panel summary { cursor: pointer; padding: 4px 0; }
+    #debug-panel .debug-line { margin: 2px 0; word-break: break-all; }
+    #debug-panel .debug-kv { margin: 2px 0; }
   </style>
 </head>
 <body>
@@ -42,6 +58,15 @@
     <video id="video" autoplay playsinline muted controls></video>
     <div id="status">Connecting…</div>
   </div>
+  <details id="debug-panel">
+    <summary>Debug</summary>
+    <div class="debug-kv">connState: <span id="debug-connState">-</span></div>
+    <div class="debug-kv">iceState: <span id="debug-iceState">-</span></div>
+    <div class="debug-kv">gatherState: <span id="debug-gatherState">-</span></div>
+    <div class="debug-kv">stats: <span id="debug-stats">-</span></div>
+    <div class="debug-kv">video: <span id="debug-video">-</span></div>
+    <div id="debug"></div>
+  </details>
   <script type="module" src="player.js"></script>
 </body>
 </html>
