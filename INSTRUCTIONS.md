@@ -2,7 +2,7 @@
 
 Minimal personal streaming service using MediaMTX + nginx + Docker Compose. WebRTC-only for ~1 second latency. No HLS, no frameworks.
 
-**Architecture:** OBS → RTMP → MediaMTX → WebRTC → Browser
+**Architecture:** OBS (RTMP, AAC) → MediaMTX path `live` → FFmpeg (AAC→Opus) → path `live_webrtc` → WebRTC → Browser
 
 ## Requirements
 

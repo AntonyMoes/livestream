@@ -22,9 +22,17 @@ webrtcICEServers2:
 # Disable HLS (WebRTC only)
 hls: false
 
-# Path "live" - stream at rtmp://host/live with empty stream key
+# RTSP: used by FFmpeg to publish re-encoded stream (AAC → Opus for WebRTC)
+rtsp: true
+rtspAddress: :8554
+
+# Path "live" - OBS publishes here (RTMP, AAC). When ready, FFmpeg re-encodes to "live_webrtc" with Opus.
+# Path "live_webrtc" - video copy + Opus audio; use this in the player (WebRTC requires Opus, not AAC).
 paths:
-  live: {}
+  live:
+    runOnReady: ffmpeg -i rtmp://localhost:1935/live -c:v copy -c:a libopus -b:a 64k -f rtsp rtsp://localhost:8554/live_webrtc
+    runOnReadyRestart: yes
+  live_webrtc: {}
 
 # Required for remote viewers: use your public hostname so ICE candidates are reachable
 # webrtcICEHostNAT1To1IPs: [YOUR_PUBLIC_IP]

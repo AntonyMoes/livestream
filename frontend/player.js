@@ -2,7 +2,7 @@
  * Minimal WHEP WebRTC player for MediaMTX
  * Sends ALL ICE candidates (whip-whep only sends index 0, which can cause one-frame freeze)
  */
-const WHEP_URL = "/webrtc/live/whep";
+const WHEP_URL = "/webrtc/live_webrtc/whep";
 const STUN_SERVER = "stun:stun.l.google.com:19302";
 const RETRY_MS = 3000;
 
