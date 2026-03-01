@@ -30,9 +30,9 @@ rtspAddress: :8554
 # Low-latency + no drift: vsync drop + aresample async + small queues so delay doesn't grow over time.
 paths:
   live:
-    runOnReady: ffmpeg -fflags nobuffer+genpts -flags low_delay -thread_queue_size 1 -i rtmp://localhost:1935/live -fps_mode drop -c:v copy -af aresample=async=1 -c:a libopus -b:a 64k -application lowdelay -muxdelay 0 -muxpreload 0 -max_muxing_queue_size 512 -f rtsp rtsp://localhost:8554/live_webrtc
+    runOnReady: ffmpeg -fflags nobuffer+genpts -flags low_delay -thread_queue_size 1 -i rtmp://localhost:1935/live -fps_mode drop -c:v copy -af aresample=async=1 -c:a libopus -b:a 64k -application lowdelay -muxdelay 0 -muxpreload 0 -max_muxing_queue_size 512 -rtsp_transport tcp -f rtsp rtsp://localhost:8554/live_webrtc
     runOnReadyRestart: yes
   live_webrtc: {}
 
 # Required for remote viewers: use your public hostname so ICE candidates are reachable
-# webrtcICEHostNAT1To1IPs: [YOUR_PUBLIC_IP]
+# webrtcAdditionalHosts: [YOUR_PUBLIC_IP]
