@@ -2,11 +2,10 @@
 
 logLevel: info
 
-# Timeouts and buffers - helps with OBS connection stability during brief network hiccups
-# 60s avoids common firewall/NAT idle timeouts; OBS doesn't send RTMP keepalive packets
+# Timeouts and buffers - lower writeQueueSize reduces latency at cost of more "reader too slow" under load
 readTimeout: 60s
 writeTimeout: 60s
-writeQueueSize: 1024
+writeQueueSize: 256
 
 # RTMP: OBS publishes here
 rtmp: true
@@ -28,9 +27,10 @@ rtspAddress: :8554
 
 # Path "live" - OBS publishes here (RTMP, AAC). When ready, FFmpeg re-encodes to "live_webrtc" with Opus.
 # Path "live_webrtc" - video copy + Opus audio; use this in the player (WebRTC requires Opus, not AAC).
+# Low-latency + no drift: vsync drop + aresample async + small queues so delay doesn't grow over time.
 paths:
   live:
-    runOnReady: ffmpeg -i rtmp://localhost:1935/live -c:v copy -c:a libopus -b:a 64k -f rtsp rtsp://localhost:8554/live_webrtc
+    runOnReady: ffmpeg -fflags nobuffer+genpts -flags low_delay -thread_queue_size 1 -max_muxing_queue_size 512 -vsync drop -i rtmp://localhost:1935/live -c:v copy -af aresample=async=1 -c:a libopus -b:a 64k -application lowdelay -muxdelay 0 -muxpreload 0 -f rtsp rtsp://localhost:8554/live_webrtc
     runOnReadyRestart: yes
   live_webrtc: {}
 
