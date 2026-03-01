@@ -51,6 +51,7 @@
     #debug-panel summary { cursor: pointer; padding: 4px 0; }
     #debug-panel .debug-line { margin: 2px 0; word-break: break-all; }
     #debug-panel .debug-kv { margin: 2px 0; }
+    #debug-panel .debug-tip { margin-bottom: 8px; padding: 6px; background: #222; color: #ff9; font-size: 12px; }
   </style>
 </head>
 <body>
@@ -60,6 +61,7 @@
   </div>
   <details id="debug-panel">
     <summary>Debug</summary>
+    <p class="debug-tip">Stream keeps dropping? In OBS set <strong>B-frames to 0</strong> (Settings → Output → Streaming). WebRTC does not support B-frames.</p>
     <div class="debug-kv">connState: <span id="debug-connState">-</span></div>
     <div class="debug-kv">iceState: <span id="debug-iceState">-</span></div>
     <div class="debug-kv">gatherState: <span id="debug-gatherState">-</span></div>

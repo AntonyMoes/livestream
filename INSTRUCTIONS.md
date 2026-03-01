@@ -21,6 +21,8 @@ Open **http://localhost:8080** in your browser.
 
 ## OBS Settings
 
+**Required for WebRTC:** MediaMTX closes the stream if H264 has B-frames. You must set **B-frames to 0**.
+
 1. **Settings → Stream**
    - Service: **Custom**
    - Server: `rtmp://YOUR_DOMAIN/live`
@@ -30,7 +32,7 @@ Open **http://localhost:8080** in your browser.
    - Encoder: x264 or hardware encoder
    - **CBR** (constant bitrate)
    - **Keyframe interval: 1** (or 1 second)
-   - **No B-frames** (set to 0 if available)
+   - **B-frames: 0** ← required (WebRTC does not support B-frames; stream will disconnect otherwise)
 
 ## Host Nginx Reverse Proxy (TLS)
 
