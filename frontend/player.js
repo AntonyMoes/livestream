@@ -172,9 +172,13 @@ async function connect() {
     if (res.status !== 201) throw new Error(`POST ${res.status}`);
 
     const loc = res.headers.get("Location");
-    sessionUrl = loc.startsWith("/webrtc")
-      ? new URL(loc, location.origin).href
-      : new URL("/webrtc" + (loc.startsWith("/") ? loc : "/" + loc), location.origin).href;
+    if (loc.startsWith("http://") || loc.startsWith("https://")) {
+      sessionUrl = loc;
+    } else if (loc.startsWith("/webrtc")) {
+      sessionUrl = new URL(loc, location.origin).href;
+    } else {
+      sessionUrl = new URL("/webrtc" + (loc.startsWith("/") ? loc : "/" + loc), location.origin).href;
+    }
 
     debug.log("session URL", sessionUrl);
 
