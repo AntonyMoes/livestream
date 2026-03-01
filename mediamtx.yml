@@ -30,7 +30,7 @@ rtspAddress: :8554
 # Low-latency + no drift: vsync drop + aresample async + small queues so delay doesn't grow over time.
 paths:
   live:
-    runOnReady: ffmpeg -fflags nobuffer+genpts -flags low_delay -thread_queue_size 1 -max_muxing_queue_size 512 -vsync drop -i rtmp://localhost:1935/live -c:v copy -af aresample=async=1 -c:a libopus -b:a 64k -application lowdelay -muxdelay 0 -muxpreload 0 -f rtsp rtsp://localhost:8554/live_webrtc
+    runOnReady: ffmpeg -fflags nobuffer+genpts -flags low_delay -thread_queue_size 1 -fps_mode drop -i rtmp://localhost:1935/live -c:v copy -af aresample=async=1 -c:a libopus -b:a 64k -application lowdelay -muxdelay 0 -muxpreload 0 -max_muxing_queue_size 512 -f rtsp rtsp://localhost:8554/live_webrtc
     runOnReadyRestart: yes
   live_webrtc: {}
 
