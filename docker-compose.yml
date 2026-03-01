@@ -1,6 +1,6 @@
 services:
   mediamtx:
-    image: bluenviron/mediamtx:latest
+    image: bluenviron/mediamtx:1.16.2
     ports:
       - "1935:1935"
       - "8889:8889"

@@ -2,6 +2,11 @@
 
 logLevel: info
 
+# Timeouts and buffers - helps with OBS connection stability during brief network hiccups
+readTimeout: 30s
+writeTimeout: 30s
+writeQueueSize: 1024
+
 # RTMP: OBS publishes here
 rtmp: true
 rtmpAddress: :1935
